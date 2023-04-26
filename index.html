@@ -19,11 +19,16 @@
       }
       #map {
         margin: 0;
-        width: 75vw;
-        height: 75vh;
+        width: 100vw;
+        height: 100vh;
       }
       h1 {
-        color: black;
+        margin: 0;
+        border: 0;
+        padding: 10px;
+        font: 30px "Helvetica Neue", Arial, Helvetica, sans-serif;
+        background-color: #474747;
+        color: white;
         text-align: center;
       }
     </style>
@@ -36,24 +41,41 @@
         font: 12px/20px "Helvetica Neue", Arial, Helvetica, sans-serif;
       }
     </style>
+
     <div id="map"></div>
+
+    <!-- ======= MAPBOX API ======= -->
+
     <script>
       mapboxgl.accessToken =
         "pk.eyJ1Ijoic2FyYWNpcG9sbGEiLCJhIjoiY2xkdWhleWhsMDVzdDN3cGliZ2dlMDFzdSJ9.ZnVe2iLEfnf8UlDRAOmffQ";
       const map = new mapboxgl.Map({
         container: "map",
-        // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
         style: "mapbox://styles/mapbox/streets-v12",
-        center: [-96.8116, 49.7703],
+
+        //
+        //
+        //LONG, LAT FOR INITIAL LOCATION
+        center: [-96.8116, 49.7703], // <--- Center of Canada
         zoom: 3,
+        //
+        //
+        //
       });
 
+      //
+      //
+      //
       map.on("load", () => {
         map.addSource("places", {
           type: "geojson",
+          // "data" is used to fill in geo locations. This points to geojson file.
           data: "sara.geojson",
         });
-        // Add a layer showing the places.
+        //
+        //
+        //
+
         map.addLayer({
           id: "places",
           type: "circle",
@@ -66,29 +88,21 @@
           },
         });
 
-        // Create a popup, but don't add it to the map yet.
         const popup = new mapboxgl.Popup({
           closeButton: false,
           closeOnClick: false,
         });
 
         map.on("mouseenter", "places", (e) => {
-          // Change the cursor style as a UI indicator.
           map.getCanvas().style.cursor = "pointer";
 
-          // Copy coordinates array.
           const coordinates = e.features[0].geometry.coordinates.slice();
           const description = e.features[0].properties.description;
 
-          // Ensure that if the map is zoomed out such that multiple
-          // copies of the feature are visible, the popup appears
-          // over the copy being pointed to.
           while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
             coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
           }
 
-          // Populate the popup and set its coordinates
-          // based on the feature found.
           popup.setLngLat(coordinates).setHTML(description).addTo(map);
         });
 

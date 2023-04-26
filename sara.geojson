@@ -8,6 +8,14 @@
         "description": "<strong>Kinsmen Lodge</strong><p><strong>Address: </strong> 9650 137a St Surrey, BC V3T 4H9</p>"
       },
       "geometry": { "type": "Point", "coordinates": [-73.183645, 46.084477] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "",
+        "description": "<strong>Kinsmen Lodge</strong><p><strong>Address: </strong> 9650 137a St Surrey, BC V3T 4H9</p>"
+      },
+      "geometry": { "type": "Point", "coordinates": [-72.183645, 43.084477] }
     }
   ]
 }
